@@ -52,4 +52,5 @@ j.basket.currency = innerHTMLBySelector('span.currency');
 j.basket.cost = {subtotal: innerHTMLBySelector('.totals span.price')};
 j.basket.items = fetchItems();
 
-document.querySelector('#result').innerHTML = JSON.stringify(j, null, 4);
+//document.querySelector('#result').innerHTML = JSON.stringify(j, null, 4);
+console.log(JSON.stringify(j, null, 4));
