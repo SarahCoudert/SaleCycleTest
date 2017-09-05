@@ -1,0 +1,90 @@
+<!--
+     fetchBasketDatasTesting.html
+
+     By: scoudert <scoudert@student.42.fr> 
+
+     Created: 2017/09/05 16:13:10 by scoudert
+     Updated: 2017/09/05 17:20:43 by scoudert 
+-->
+
+<!-- This file is for testing. As long as you respect the format,
+	you can add as many articles you want, it will always work the same.
+	It displays the result in a pre with the id "result". For js only
+	see the fetchBasketDatas.js file -->
+
+
+<div class="col-md-7 col-sm-12 text-left" id="basketItems">
+	<ul>
+		<li class="row list-inline columnCaptions">
+			<span>QTY</span>
+			<span>ITEM</span>
+			<span>Unit Price</span>
+		</li>
+		<li class="row cartItem">
+			<span class="quantity">2</span>
+			<a href="www.fakestore.com/items/beerKegs"><span class="itemName">Beer kegs</span></a>
+			<span class="price">$49.99</span>
+			<span class="currency" style="display:none;">USD</span>
+		</li>
+		<li class="row cartItem">
+			<span class="quantity">3</span>
+			<a href="www.fakestore.com/items/shampooBottle"><span class="itemName">Shampoo Bottle</span></a>
+			<span class="price">$4.49</span>
+			<span class="currency" style="display:none;">USD</span>
+		</li>
+		<li class="row cartItem">
+			<span class="quantity">1</span>
+			<a href="www.fakestore.com/items/poundOfBeef"><span class="itemName">Pound of beef</span></a>
+			<span class="price">$3.99</span>
+			<span class="currency" style="display:none;">USD</span>
+		</li>
+		<li class="row totals">
+			<span class="itemName">Total:</span>
+			<span class="price">$117.44</span>
+			<span class="order"> <a class="text-center">ORDER</a></span>
+		</li>
+	</ul>
+</div>
+
+
+	<pre id="result"></pre>
+
+<script type="text/javascript">
+	
+function innerHTMLBySelector(selector) {
+  let elem = document.querySelector(selector);
+  return elem.innerHTML;
+}
+
+function fetchItems() {
+	const elements = document.querySelectorAll('.cartItem');
+	let list = []
+
+	for (let i = 0; i < elements.length; i++) {
+		let price = elements[i].querySelector('.price').innerHTML;
+		let name = elements[i].querySelector('.itemName').innerHTML;
+		let url = elements[i].querySelector('a').getAttribute('href');
+		quantity = elements[i].querySelector('.quantity').innerHTML;
+
+		list[i] =	{
+						"products": {
+							"costs": {
+								subtotal: price
+							},
+							"name": name,
+	               			"url": url,
+	            		},
+	            		"quantity": parseInt(quantity)
+	            	}
+	}
+	return list;
+}
+
+let j = {};
+j.basket = {}
+j.basket.currency = innerHTMLBySelector('span.currency');
+j.basket.cost = {subtotal: innerHTMLBySelector('.totals span.price')};
+j.basket.items = fetchItems();
+
+document.querySelector('#result').innerHTML = JSON.stringify(j, null, 4);
+</script>
